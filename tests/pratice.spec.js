@@ -38,5 +38,8 @@ test('Password Input Present on Home Page', async ({ page }) => {
     await expect(passwordInput).toBeVisible();
     await page.waitForTimeout(5000);
 });
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 118fdb34b51694a0c999dcff049a530b772835fa
