@@ -34,32 +34,28 @@ jobs:
         path: blob-report
         retention-days: 1
 merge-report:
-  if: ${{ !cancelled() }}
-  needs: [playwright-tests]
+    if: ${{ !cancelled() }}
+    needs: [playwright-tests]
  
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    - name: Set Up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
-
-    - name: Download Blob Reports from GitHub Actions Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: blob-report
-        pattern: blob-report-*
-        merge-multiple: true
-
-    - name: Merge into HTML Reports
-      run: npx playwright merge-reports --reporter=html --output=playwright-report ./blob-report
-
-    - name: Upload Merged HTML Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: html-report--attempt-${{ github.run_attempt }}
-        path: playwright-report
-        retention-days: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Download blob reports from github actions artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: blob-report
+          pattern: blob-report-*
+          merge-multiple: true
+ 
+      - name: Merge into HTML reports
+        run: npm playwright merge-reports --reporter html ./blob-report
+ 
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report--attempt-${{ github.run_attempt }}
+          path: playwright-report
+          retention-days: 10
