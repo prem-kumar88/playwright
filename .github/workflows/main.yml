@@ -33,7 +33,7 @@ jobs:
         name: blob-report-${{ matrix.shardIndex }}
         path: blob-report
         retention-days: 1
-merge-report:
+  merge-report:
     if: ${{ !cancelled() }}
     needs: [playwright-tests]
  
